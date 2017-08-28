@@ -67,6 +67,7 @@ public class ChatView extends RelativeLayout {
     private Drawable sendButtonIcon, buttonDrawable;
     private TypedArray attributes, textAppearanceAttributes;
     private Context context;
+    private MessageDateFormatter dateFormatter;
 
 
 
@@ -126,6 +127,15 @@ public class ChatView extends RelativeLayout {
         setInputTextAttributes();
         setSendButtonAttributes();
         setUseEditorAction();
+    }
+
+
+    public MessageDateFormatter getDateFormatter() {
+        return dateFormatter;
+    }
+
+    public void setDateFormatter(MessageDateFormatter dateFormatter) {
+        this.dateFormatter = dateFormatter;
     }
 
     private void getChatViewBackgroundColor() {
@@ -454,7 +464,10 @@ public class ChatView extends RelativeLayout {
             }
 
             holder.getMessageTextView().setText(chatMessages.get(position).getMessage());
-            holder.getTimestampTextView().setText(chatMessages.get(position).getFormattedTime());
+            String formattedDate = dateFormatter != null ?
+                    dateFormatter.format(chatMessages.get(position).getTimestamp()) :
+                    chatMessages.get(position).getFormattedTime();
+            holder.getTimestampTextView().setText(formattedDate);
             holder.getChatBubble().setCardElevation(bubbleElevation);
             holder.setBackground(type);
 
