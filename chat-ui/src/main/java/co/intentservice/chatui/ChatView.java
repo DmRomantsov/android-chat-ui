@@ -68,6 +68,7 @@ public class ChatView extends RelativeLayout {
     private TypedArray attributes, textAppearanceAttributes;
     private Context context;
     private MessageDateFormatter dateFormatter;
+    private boolean addMessageAfterSend = true;
 
 
 
@@ -136,6 +137,14 @@ public class ChatView extends RelativeLayout {
 
     public void setDateFormatter(MessageDateFormatter dateFormatter) {
         this.dateFormatter = dateFormatter;
+    }
+
+    public boolean isAddMessageAfterSend() {
+        return addMessageAfterSend;
+    }
+
+    public void setAddMessageAfterSend(boolean addMessageAfterSend) {
+        this.addMessageAfterSend = addMessageAfterSend;
     }
 
     private void getChatViewBackgroundColor() {
@@ -360,7 +369,9 @@ public class ChatView extends RelativeLayout {
 
         ChatMessage chatMessage = new ChatMessage(message, stamp, Type.SENT);
         if (onSentMessageListener != null && onSentMessageListener.sendMessage(chatMessage)) {
-            chatViewListAdapter.addMessage(chatMessage);
+            if (addMessageAfterSend) {
+                chatViewListAdapter.addMessage(chatMessage);
+            }
             inputEditText.setText("");
         }
     }
