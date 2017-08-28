@@ -392,6 +392,10 @@ public class ChatView extends RelativeLayout {
         chatViewListAdapter.clearMessages();
     }
 
+    public void updateMessage(Long id, ChatMessage message) {
+         //TODO
+    }
+
     public EditText getInputEditText() {
         return inputEditText;
     }
@@ -474,13 +478,21 @@ public class ChatView extends RelativeLayout {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.getMessageTextView().setText(chatMessages.get(position).getMessage());
+            ChatMessage chatMessage = chatMessages.get(position);
+            holder.getMessageTextView().setText(chatMessage.getMessage());
             String formattedDate = dateFormatter != null ?
-                    dateFormatter.format(chatMessages.get(position).getTimestamp()) :
-                    chatMessages.get(position).getFormattedTime();
+                    dateFormatter.format(chatMessage.getTimestamp()) :
+                    chatMessage.getFormattedTime();
             holder.getTimestampTextView().setText(formattedDate);
             holder.getChatBubble().setCardElevation(bubbleElevation);
             holder.setBackground(type);
+
+            if (chatMessage.getAdditionalText() != null) {
+                holder.getAdditionalTextView().setText(chatMessage.getAdditionalText());
+                holder.getAdditionalTextView().setVisibility(VISIBLE);
+            } else {
+                holder.getAdditionalTextView().setVisibility(GONE);
+            }
 
             return convertView;
         }
@@ -511,6 +523,7 @@ public class ChatView extends RelativeLayout {
             CardView bubble;
             TextView messageTextView;
             TextView timestampTextView;
+            TextView additionalTextView;
 
             private ViewHolder(View convertView) {
                 row = convertView;
@@ -522,6 +535,13 @@ public class ChatView extends RelativeLayout {
                     messageTextView = (TextView) row.findViewById(R.id.message_text_view);
                 }
                 return messageTextView;
+            }
+
+            private TextView getAdditionalTextView() {
+                if (additionalTextView == null) {
+                    additionalTextView = (TextView) row.findViewById(R.id.additional_text_view);
+                }
+                return additionalTextView;
             }
 
             private TextView getTimestampTextView() {

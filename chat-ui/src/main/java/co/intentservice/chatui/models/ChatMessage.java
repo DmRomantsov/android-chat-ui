@@ -5,14 +5,26 @@ import android.text.format.DateFormat;
 import java.util.concurrent.TimeUnit;
 
 public class ChatMessage {
+    private Long id;
     private String message;
     private long timestamp;
     private Type type;
+    private String additionalText;
 
-    public ChatMessage(String message, long timestamp, Type type){
+    public ChatMessage(Long id, String message, long timestamp, Type type, String additionalText){
+        this.id = id;
         this.message = message;
         this.timestamp = timestamp;
         this.type = type;
+        this.additionalText = additionalText;
+    }
+
+    public ChatMessage(String message, long timestamp, Type type){
+        this(null, message, timestamp, type, null);
+    }
+
+    public ChatMessage(Long id) {
+        this.id = id;
     }
 
     public long getTimestamp() {
@@ -39,6 +51,9 @@ public class ChatMessage {
         this.type = type;
     }
 
+    public String getAdditionalText() {
+        return additionalText;
+    }
 
     public String getFormattedTime(){
 
