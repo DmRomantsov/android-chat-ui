@@ -19,8 +19,16 @@ public class ChatMessage {
         this.additionalText = additionalText;
     }
 
+    public ChatMessage(Long id, String message, long timestamp, Type type) {
+       this(id, message, timestamp, type, null);
+    }
+
     public ChatMessage(String message, long timestamp, Type type){
         this(null, message, timestamp, type, null);
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public ChatMessage(Long id) {
@@ -53,6 +61,14 @@ public class ChatMessage {
 
     public String getAdditionalText() {
         return additionalText;
+    }
+
+    public void setAdditionalText(String additionalText) {
+        this.additionalText = additionalText;
+    }
+
+    public void clearAdditionalText() {
+        this.additionalText = null;
     }
 
     public String getFormattedTime(){

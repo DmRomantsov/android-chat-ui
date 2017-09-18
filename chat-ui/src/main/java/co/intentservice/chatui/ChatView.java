@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+
 import co.intentservice.chatui.fab.FloatingActionsMenu;
 import co.intentservice.chatui.models.ChatMessage;
 import co.intentservice.chatui.models.ChatMessage.Type;
@@ -384,6 +385,14 @@ public class ChatView extends RelativeLayout {
         chatViewListAdapter.addMessages(messages);
     }
 
+    public void clearAdditionalTexts(String text) {
+         chatViewListAdapter.clearAdditionalTexts(text);
+    }
+
+    public void setAdditionalText(long messageId, String text) {
+        chatViewListAdapter.setAdditionalText(messageId, text);
+    }
+
     public void removeMessage(int position) {
         chatViewListAdapter.removeMessage(position);
     }
@@ -511,6 +520,25 @@ public class ChatView extends RelativeLayout {
             if (this.chatMessages.size() > position) {
                 this.chatMessages.remove(position);
             }
+        }
+
+        void setAdditionalText(Long messageId, String text) {
+            for (ChatMessage message: chatMessages) {
+                if (messageId.equals(message.getId()) &&
+                        !Objects.equals(message.getAdditionalText(), text)) {
+                    message.setAdditionalText(text);
+                    notifyDataSetChanged();
+                }
+            }
+        }
+
+        void clearAdditionalTexts(String text) {
+            for (ChatMessage message: chatMessages) {
+                if (text.equals(message.getAdditionalText())) {
+                    message.clearAdditionalText();
+                }
+            }
+            notifyDataSetChanged();
         }
 
         private void clearMessages() {
